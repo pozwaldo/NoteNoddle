@@ -1,0 +1,80 @@
+@charset "UTF-8";
+/* CSS Document */
+h1 {
+  color: white;
+  font-size: 36px;
+  font-family: Verdana, sans-serif;
+}
+p1 {
+  color: forestgreen;
+  font-size: 24px;
+  font-family: Verdana, sans-serif;
+  font-weight: bold;
+}
+.menus {
+  color: dimgray;
+  font-size: 16px;
+  font-family: Verdana, sans-serif;	
+  font-weight: bold;		
+}
+.menussmall {
+  color: dimgray;
+  font-size: 11px;
+  font-family: Verdana, sans-serif;	
+  font-weight: bold;	
+}
+.buttons {
+  color: dimgray;
+  font-size: 16px;
+  font-family: Verdana, sans-serif;
+  font-weight: bold;	
+}
+.timers {
+  color: palevioletred;
+  font-size: 24px;
+  font-family: Verdana, sans-serif;
+  font-weight: bold;
+}
+.score {
+  color: black;
+  font-size: 24px;
+  font-family: Verdana, sans-serif;
+  font-weight: bold;	
+}
+.scorePopup {
+  color: darkgreen;
+  font-size: 30px;
+  font-family: Verdana, sans-serif;
+  font-weight: bold;
+}
+.initially-hidden {
+  opacity: 0;
+}
+/* Hide the popup initially */
+.popup-hidden {
+  display: none;
+}
+
+
+#settingsPopup {
+  position: fixed; /* Position relative to the viewport */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the popup */
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 20px;	
+  z-index: 10; /* Ensure it appears above other content */
+}
+#scorePopup {
+  position: fixed; /* Position relative to the viewport */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the popup */
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 20px;	
+  z-index: 10; /* Ensure it appears above other content */
+}

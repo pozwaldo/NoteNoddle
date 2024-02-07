@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body style="background-color: lightblue;">
+
+  <h1 style="text-align: center;">Note Noodle</h1>
+
+<!-- PopUp Settings Menu -->	
+ <div1 id="settingsPopup">
+	 
+	 	<div style="display: flex; justify-content: center;">
+    <label for="clefdropdown" class="menus">Choose a clef:</label>
+    <select name="clefdropdown" id="clefdropdown" class="menus" onchange="changeclef()">
+      <option value="treble">Treble</option>
+      <option value="alto">Alto</option>
+      <option value="bass">Bass</option>
+    </select>
+	 </div>
+		<br>
+		
+	<div style="display: flex; justify-content: center;">	
+    <label for="keydropdown" class="menus">Choose a key:</label>
+    <select name="keydropdown" id="keydropdown" class="menus" onchange="changeclef(); changeImage();">
+      <option value="0">C</option>
+      <option value="1">G</option>
+      <option value="2">D</option>
+      <option value="3">A</option>	
+      <option value="4">E</option>
+      <option value="5">B</option>
+      <option value="6">F#</option>
+      <option value="-1">F</option>
+      <option value="-2">Bb</option>
+      <option value="-3">Eb</option>	
+      <option value="-4">Ab</option>
+      <option value="-5">Db</option>		
+    </select>
+	 </div>
+  
+<br>	
+   
+	<div style="display: flex; justify-content: center;">
+	<label for="lowestnotedropdown" class="menus">Lowest Note:</label>
+    <select name="lowestnotedropdown" id="lowestnotedropdown" class="menus" onchange="changeclef()">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3" selected>3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>				  
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>						  
+      <option value="12">12</option>
+      <option value="13">13</option>
+      <option value="14">14</option>
+      <option value="15">15</option>
+      <option value="16">16</option>
+      <option value="17">17</option>				  
+      <option value="18">18</option>
+      <option value="19">19</option>
+    </select>
+	 </div>
+<p style="display: flex; justify-content: center;" class="menussmall">(3 = Middle C in treble clef)</p>	  
+	 <br> 
+	
+	<div style="display: flex; justify-content: center;">
+	<label for="rangedropdown" class="menus">Range:</label>
+    <select name="rangedropdown" id="rangedropdown" class="menus" onchange="changeclef()">
+      <option value="1">Unison</option>
+      <option value="2">2nd</option>
+      <option value="3">3rd</option>
+      <option value="4">4th</option>
+      <option value="5">5th</option>				  
+      <option value="6">6th</option>
+      <option value="7">7th</option>
+      <option value="8" selected>Octave</option>
+      <option value="9">9th</option>
+      <option value="10">10th</option>
+      <option value="11">11th</option>						  
+      <option value="12">12th</option>
+      <option value="13">13th</option>
+      <option value="14">14th</option>
+      <option value="15">15th</option>
+      <option value="16">16th</option>
+      <option value="17">17th</option>				  
+      <option value="18">18th</option>
+      <option value="19">19th</option>
+    </select>
+	 </div>
+<br>  
+    <div style="display: flex; justify-content: center;">
+	<label for="modedropdown" class="menus">Mode:</label>
+    <select name="modedropdown" id="modedropdown" class="menus" onchange="changeclef()">
+      <option value="1">Speed Challenge</option>
+      <option value="2">Practice</option>	 
+		</select>
+	 </div>
+		
+<br>	 
+	 
+	 <!-- Input Volume -->	
+<div style="display: flex; justify-content: center;">
+	<label for="volumeSlider" class="menus">Mic Sensitivity</label>
+<input type="range" min="0" max="1" step="0.01" id="volumeSlider" value="0.15">
+	<span id="volumeDisplay" class="menus">15</span> 
+</div>	
+	 
+	 <br>
+	 
+	   <div style="text-align: center;">
+    <button id="startButton" class="buttons">Start</button> </div>
+	
+	
+	</div1>
+	
+<!--Score Popup-->
+<div id="scorePopup" class="popup-hidden">
+	 <div style="text-align: center;">	
+	<p id="finalscore" class="scorePopup">--</p>
+	</div>
+	 <div style="text-align: center;">
+    <button id="tryAgainButton" class="buttons">Try Again</button> </div>
+	 <br>
+	<div style="text-align: center;">
+    <button id="settingsButton" class="buttons">Settings</button> </div>
+	</div>
+	
+	
+<!-- Countdown Timer -->
+<div style="text-align: center;">	
+<p id="timer" class="timers popup-hidden">Ready</p>
+	</div>
+
+<!--Score Display-->	
+<div style="text-align: center;">	
+<p id="scoreDisplay" class="score popup-hidden">Score: 0</p>	
+	
+<!-- Clef, Key and Note Displayr -->
+  <div style="display: flex; justify-content: center;">
+    <img id="clefimage" src="treble0.png" alt="clef" height="400" class="popup-hidden">
+    <img id="note1" src="60.png" alt="note1image" height="400" class="popup-hidden">
+  </div>
+
+<!-- Correct! -->	
+  <div style="text-align: center;">
+    <p1 id="correct" class="initially-hidden">Correct!</p1>
+  </div>
+
+  <br>
+
+
+	
+<!--Old Stuff Hidden at the Bottom-->	
+  <div style="text-align: center;">
+    <button onclick="changeImage()" class="buttons initially-hidden" >Skip Note</button>
+  </div>
+	
+  <br>
+
+
+
+  <br>
+
+  <p style="text-align: center;" id="midinote" class="initially-hidden" >--</p>
+  <p style="text-align: center;" id="displaynote1" class="initially-hidden">--</p>
+  <p style="text-align: center;" id="frequency" class="initially-hidden">--</p>
+	
+	
+  <script src="script.js"></script>
+
+</body>
+</html>
