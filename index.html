@@ -79,41 +79,39 @@
       <option value="6">6th</option>
       <option value="7">7th</option>
       <option value="8" selected>Octave</option>
-      <option value="9">9th</option>
-      <option value="10">10th</option>
-      <option value="11">11th</option>						  
-      <option value="12">12th</option>
-      <option value="13">13th</option>
-      <option value="14">14th</option>
-      <option value="15">15th</option>
-      <option value="16">16th</option>
-      <option value="17">17th</option>				  
-      <option value="18">18th</option>
-      <option value="19">19th</option>
+      <option value="9">Octave + 2nd</option>
+      <option value="10">Octave + 3rd</option>
+      <option value="11">Octave + 4th</option>						  
+      <option value="12">Octave + 5th</option>
+      <option value="13">Octave + 6th</option>
+      <option value="14">Octave + 7th</option>
+      <option value="15">Two Octaves</option>
+
     </select>
 	 </div>
 <br>  
-    <div style="display: flex; justify-content: center;">
-	<label for="modedropdown" class="menus">Mode:</label>
-    <select name="modedropdown" id="modedropdown" class="menus" onchange="changeclef()">
+	 
+	 	 <!-- Input Volume -->	
+<div style="display: flex; justify-content: center;">
+	<label for="volumeSlider" class="menus">Mic Sensitivity</label>
+<input type="range" min="0" max="1" step="0.01" id="volumeSlider" value="0.65">
+	<span id="volumeDisplay" class="menus">65</span> 
+</div>	
+	 
+<br>
+	 
+<div style="text-align: center;">
+    <button id="startButton" class="buttons">Start</button> </div>
+	 
+	 <!--Mode Dropdown -->
+<div style="display: flex; justify-content: center;">
+	<label for="modedropdown" class="initially-hidden">Mode:</label>
+    <select name="modedropdown" id="modedropdown" class="initially-hidden" onchange="changeclef()">
       <option value="1">Speed Challenge</option>
       <option value="2">Practice</option>	 
 		</select>
 	 </div>
 		
-<br>	 
-	 
-	 <!-- Input Volume -->	
-<div style="display: flex; justify-content: center;">
-	<label for="volumeSlider" class="menus">Mic Sensitivity</label>
-<input type="range" min="0" max="1" step="0.01" id="volumeSlider" value="0.15">
-	<span id="volumeDisplay" class="menus">15</span> 
-</div>	
-	 
-	 <br>
-	 
-	   <div style="text-align: center;">
-    <button id="startButton" class="buttons">Start</button> </div>
 	
 	
 	</div1>
