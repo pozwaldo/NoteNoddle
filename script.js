@@ -18,6 +18,9 @@ document.getElementById("startButton").addEventListener("click", function() {
   document.getElementById("note1").style.display = "block"; // Make note1 visible
   document.getElementById("timer").style.display = "block"; // Make time visible 
   document.getElementById("scoreDisplay").style.display = "block"; // Make time visible 
+  
+  document.getElementById("scoreDisplay").textContent = "Score: " + 0;
+  
   startTimer(); // Run the startTimer function
   changeImage(); // Run the changeImage function
   	
@@ -31,8 +34,8 @@ document.getElementById("tryAgainButton").addEventListener("click", function() {
   document.getElementById("clefimage").style.display = "block"; // Make the clef visible
   document.getElementById("note1").style.display = "block"; // Make note1 visible
   document.getElementById("timer").style.display = "block"; // Make time visible 
-  document.getElementById("scoreDisplay").style.display = "block"; // Make time visible 	
-	
+  document.getElementById("scoreDisplay").style.display = "block"; // Make time visible 		
+  document.getElementById("scoreDisplay").textContent = "Score: " + 0;
   startTimer(); // Run the startTimer function
   changeImage(); // Run the changeImage function
   audioContext = new AudioContext();
