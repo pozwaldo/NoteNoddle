@@ -11,23 +11,24 @@
 <!-- PopUp Settings Menu -->	
  <div1 id="settingsPopup">
 	 
+  <!--Clef Dropdown-->
 	 	<div style="display: flex; justify-content: center;">
     <label for="clefdropdown" class="menus">Choose a clef:</label>
     <select name="clefdropdown" id="clefdropdown" class="menus" onchange="changeclef()">
-      <option value="treble">Treble</option>
-      <option value="alto">Alto</option>
-      <option value="bass">Bass</option>
+      <option value="treble">Treble (Violin)</option>
+      <option value="alto">Alto (Viola)</option>
+      <option value="bass">Bass (Cello)</option>
     </select>
 	 </div>
 		<br>
-		
+<!--Key Dropdown-->		
 	<div style="display: flex; justify-content: center;">	
     <label for="keydropdown" class="menus">Choose a key:</label>
     <select name="keydropdown" id="keydropdown" class="menus" onchange="changeclef(); changeImage();">
       <option value="0">C</option>
       <option value="1">G</option>
       <option value="2">D</option>
-      <option value="3">A</option>	
+      <option value="3">A</option>	 
       <option value="4">E</option>
       <option value="5">B</option>
       <option value="6">F#</option>
@@ -40,38 +41,38 @@
 	 </div>
   
 <br>	
-   
+ <!--Lowest Note Dropdown-->  
 	<div style="display: flex; justify-content: center;">
 	<label for="lowestnotedropdown" class="menus">Lowest Note:</label>
-    <select name="lowestnotedropdown" id="lowestnotedropdown" class="menus" onchange="changeclef()">
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3" selected>3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>				  
-      <option value="6">6</option>
-      <option value="7">7</option>
-      <option value="8">8</option>
-      <option value="9">9</option>
-      <option value="10">10</option>
-      <option value="11">11</option>						  
-      <option value="12">12</option>
-      <option value="13">13</option>
-      <option value="14">14</option>
-      <option value="15">15</option>
-      <option value="16">16</option>
-      <option value="17">17</option>				  
-      <option value="18">18</option>
-      <option value="19">19</option>
+    <select name="lowestnotedropdown" id="lowestnotedropdown" class="menus">
+      <option value="0">G3</option>
+      <option value="1">A3</option>
+      <option value="2">B3</option>
+      <option value="3" selected>C4</option>
+      <option value="4">D4</option>
+      <option value="5">E4</option>				  
+      <option value="6">F4</option>
+      <option value="7">G4</option>
+      <option value="8">A4</option>
+      <option value="9">B4</option>
+      <option value="10">C5</option>
+      <option value="11">D5</option>						  
+      <option value="12">E5</option>
+      <option value="13">F5</option>
+      <option value="14">G5</option>
+      <option value="15">A5</option>
+      <option value="16">B5</option>
+      <option value="17">C6</option>				  
+      <option value="18">D6</option>
+      
     </select>
 	 </div>
-<p style="display: flex; justify-content: center;" class="menussmall">(3 = Middle C in treble clef)</p>	  
-	 <br> 
-	
+
+   <br>
+	<!--Range Dropdown-->
 	<div style="display: flex; justify-content: center;">
 	<label for="rangedropdown" class="menus">Range:</label>
-    <select name="rangedropdown" id="rangedropdown" class="menus" onchange="changeclef()">
-      <option value="1">Unison</option>
+    <select name="rangedropdown" id="rangedropdown" class="menus">
       <option value="2">2nd</option>
       <option value="3">3rd</option>
       <option value="4">4th</option>
@@ -91,17 +92,20 @@
 	 </div>
 <br>  
 	 
-	 	 <!-- Input Volume -->	
+<!--Time Dropdown -->
 <div style="display: flex; justify-content: center;">
-	<label for="volumeSlider" class="menus">Mic Sensitivity</label>
-<input type="range" min="0" max="1" step="0.01" id="volumeSlider" value="0.65">
-	<span id="volumeDisplay" class="menus">65</span> 
-</div>	
-	 
-<br>
+	<label for="timedropdown" class="menus">Time:</label>
+    <select name="timedropdown" id="timedropdown" class="menus">
+      <option value="10">10 Seconds</option>
+      <option value="30" selected>30 Seconds</option>	 
+	  <option value="60">1 Minute</option>	 
+	  <option value="120">2 Minutes</option>	 
+		</select>
+	 </div>
+	 <br>
 	 
 <div style="text-align: center;">
-    <button id="startButton" class="buttons">Start</button> </div>
+    <button id="startButton" class="buttons" onchange="startAudio()">Start</button> </div>
 	 
 	 <!--Mode Dropdown -->
 <div style="display: flex; justify-content: center;">
@@ -153,15 +157,11 @@
 
 
 	
-<!--Old Stuff Hidden at the Bottom-->	
+<!--Testing Values Hidden at the Bottom-->	
   <div style="text-align: center;">
     <button onclick="changeImage()" class="buttons initially-hidden" >Skip Note</button>
   </div>
-	
   <br>
-
-
-
   <br>
 
   <p style="text-align: center;" id="midinote" class="initially-hidden" >--</p>

@@ -3,7 +3,8 @@ window.onload = startAudio(); //Starts listening for notes
 //Settings Popup 
 document.getElementById("settingsButton").addEventListener("click", function() {
   
-  document.getElementById("scorePopup").style.display = "none"; // Make the popup visibleconst settingsPopup = document.getElementById("settingsPopup");
+  document.getElementById("scorePopup").style.display = "none"; // Make the popup visible
+  const settingsPopup = document.getElementById("settingsPopup");
   this.classList.add("popup-hidden"); // Hide the Settings button
   settingsPopup.classList.toggle("popup-hidden");
   	
@@ -11,18 +12,17 @@ document.getElementById("settingsButton").addEventListener("click", function() {
 
 //Settings Popup -  Start button functionality
 document.getElementById("startButton").addEventListener("click", function() {
-  score = 0
   const settingsPopup = document.getElementById("settingsPopup");
   settingsPopup.classList.add("popup-hidden"); // Hide the popup
   document.getElementById("clefimage").style.display = "block"; // Make the clef visible
   document.getElementById("note1").style.display = "block"; // Make note1 visible
   document.getElementById("timer").style.display = "block"; // Make time visible 
   document.getElementById("scoreDisplay").style.display = "block"; // Make time visible 
-  
   document.getElementById("scoreDisplay").textContent = "Score: " + 0;
-  
   startTimer(); // Run the startTimer function
   changeImage(); // Run the changeImage function
+  audioContext = new AudioContext();
+  score = 0	
   	
 });
 
@@ -48,9 +48,10 @@ const timerElement = document.getElementById("timer");
 
 
 function startTimer() {
+  const timevalue = document.getElementById("timedropdown").value;
   // Prepare countdown stages
   const stages = ["GO!"];
-  let secondsRemaining = 30;
+  let secondsRemaining = timevalue;
   timerElement.textContent = "Ready";	
 
  
@@ -97,19 +98,7 @@ let score = 0; // Initialize Score with -1
       const imageElement1 = document.getElementById("note1");
       const note1display = document.getElementById("displaynote1");
      
-const volumeSlider = document.getElementById("volumeSlider");
-const volumeDisplay = document.getElementById("volumeDisplay");
 
-volumeSlider.addEventListener("change", (event) => {
-  // Calculate slider value in 0-100 range
-  const volumeValue = parseFloat(event.target.value) * 100;
-
-  // Update the displayed value
-  volumeDisplay.textContent = volumeValue.toFixed(0);
-
-  // Update gainNode value based on new slider position
-  gainNode.gain.value = parseFloat(event.target.value);
-});
 
 
 
@@ -130,7 +119,8 @@ function changeImage() {
 	  arrayOfNotes["treble5"] = [56, 58, 59, 61, 63, 64, 66, 68, 70, 71, 73, 74, 76, 78, 80, 82, 83, 85, 87, 88];
 	  arrayOfNotes["treble6"] = [56, 58, 59, 61, 63, 65, 66, 68, 70, 71, 73, 74, 77, 78, 80, 82, 83, 85, 87, 89];
 	  arrayOfNotes["treble-1"] = [55, 57, 58, 60, 62, 64, 65, 67, 69, 70, 72, 74, 76, 77, 79, 81, 82, 84, 86, 88];
-	  arrayOfNotes["treble-2"] = [55, 57, 58, 60, 62, 63, 65, 67, 69, 70, 72, 74, 75, 77, 79, 81, 82, 84, 86, 87];           arrayOfNotes["treble-3"] = [55, 56, 58, 60, 62, 63, 65, 67, 68, 70, 72, 74, 75, 77, 79, 80, 82, 84, 86, 87];         
+	  arrayOfNotes["treble-2"] = [55, 57, 58, 60, 62, 63, 65, 67, 69, 70, 72, 74, 75, 77, 79, 81, 82, 84, 86, 87];           
+    arrayOfNotes["treble-3"] = [55, 56, 58, 60, 62, 63, 65, 67, 68, 70, 72, 74, 75, 77, 79, 80, 82, 84, 86, 87];         
 	  arrayOfNotes["treble-4"] = [55, 56, 58, 60, 61, 63, 65, 67, 68, 70, 72, 73, 75, 77, 79, 80, 82, 84, 85, 87]; 
 	  arrayOfNotes["treble-5"] = [54, 56, 58, 60, 61, 63, 65, 66, 68, 70, 72, 73, 75, 77, 78, 80, 82, 84, 85, 87]; 
 	
@@ -166,7 +156,7 @@ function changeImage() {
 	//Get Dropdown Values
 	const clefvalue = document.getElementById("clefdropdown").value;
 	const keyvalue = document.getElementById("keydropdown").value;															  
-    const range = document.getElementById("rangedropdown").value;
+  const range = document.getElementById("rangedropdown").value;
 	const lowestnoteString = document.getElementById("lowestnotedropdown").value;
 
     // Ensure lowestnote is a number
@@ -174,7 +164,7 @@ function changeImage() {
 	
 
     //Note 1
-	  const randomNumber1 = Math.floor(Math.random() * range) + lowestnote;
+	  const randomNumber1 = Math.min(Math.floor(Math.random() * range) + lowestnote, 19);
 	  
 	  const randomNote1 = arrayOfNotes[`${clefvalue}${keyvalue}`][randomNumber1];
 	  
@@ -207,7 +197,7 @@ function startAudio() {
         // Noise reduction filter
         const biquadFilter = audioContext.createBiquadFilter();
         biquadFilter.type = "lowpass";
-        biquadFilter.frequency.value = 500; // Adjust cutoff frequency as needed
+        biquadFilter.frequency.value = 41; // Adjust cutoff frequency as needed
 
         // Add GainNode for volume control
         const gainNode = audioContext.createGain();
@@ -220,53 +210,70 @@ function startAudio() {
 
         const frequencyData = new Uint8Array(analyser.frequencyBinCount);
 
-        function renderFrame() {
-          analyser.getByteFrequencyData(frequencyData);
 
-          // Find the dominant frequency (simple approach)
-          let maxIndex = 0;
-          let maxValue = frequencyData[0];
-          for (let i = 1; i < frequencyData.length; i++) {
-            if (frequencyData[i] > maxValue) {
-              maxIndex = i;
-              maxValue = frequencyData[i];
-            }
-          }
+let midinoteHistory = [];
+let longMidinote = null;
 
-          const frequency = (maxIndex / analyser.frequencyBinCount) * audioContext.sampleRate / 2;
-          frequencyDisplay.textContent = frequency.toFixed(2) + " Hz";
+function renderFrame() {
+  analyser.getByteFrequencyData(frequencyData);
 
-          const midinote = Math.round(12 * Math.log2(frequency / 440) + 69);
-          midinoteDisplay.textContent = midinote;
+  // Find the dominant frequency (simple approach)
+  let maxIndex = 0;
+  let maxValue = frequencyData[0];
+  for (let i = 1; i < frequencyData.length; i++) {
+    if (frequencyData[i] > maxValue) {
+      maxIndex = i;
+      maxValue = frequencyData[i];
+    }
+  }
 
-          const randomNote1 = imageElement1.src.slice(0, -4); // Get current random note
-          if (currentRandomNote1 === midinote || currentRandomNote1 === midinote - 12) {
-            
-			  	score++; // Increment the score if notes match
+  const frequency = (maxIndex / analyser.frequencyBinCount) * audioContext.sampleRate / 2;
+  frequencyDisplay.textContent = frequency.toFixed(2) + " Hz";
+
+  const midinote = Math.round(12 * Math.log2(frequency / 440) + 69);
+  midinoteDisplay.textContent = midinote;
+
+  // Add the current midinote to the history
+  midinoteHistory.push(midinote);
+  
+   // Keep the history to the last 10 midinotes
+   if (midinoteHistory.length > 15) {
+    midinoteHistory.shift();
+  }
+
+    // Check if all 10 midinotes are the same
+    if (midinoteHistory.every(note => note === midinoteHistory[0])) {
+      longMidinote = midinote;
+      // Do something with the longMidinote, e.g., trigger an action
+      console.log("Long note detected:", longMidinote);
+    } else {
+      longMidinote = null;
+    }
+
+
+  const randomNote1 = imageElement1.src.slice(0, -4); // Get current random note
+
+          if (currentRandomNote1 === longMidinote || currentRandomNote1 === longMidinote - 12) {
+
+          score++; // Increment the score if notes match
+
                 document.getElementById("scoreDisplay").textContent = "Score: " + score;
-			  
+
             {
               const correctmessage = document.getElementById("correct");
               correctmessage.style.opacity = 1; // Make text visible
-
               setTimeout(() => {
                 correctmessage.style.opacity = 0; // Make text invisible after 1 second
               }, 500); // 1000 milliseconds is 1 second
+
             }
-
             changeImage(); // Re-run the changeImage function when notes match
-          }
 
+          }
           requestAnimationFrame(renderFrame);
         }
-
         requestAnimationFrame(renderFrame);
-
-        // Add volume slider control
-        const volumeSlider = document.getElementById("volumeSlider");
-        volumeSlider.addEventListener("change", (event) => {
-          gainNode.gain.value = parseFloat(event.target.value);
-        });
+  
       })
       .catch(error => {
         console.error("Error accessing microphone:", error);
@@ -275,7 +282,97 @@ function startAudio() {
     console.error("MediaDevices API not supported.");
   }
 }
+
+//Clef Dispalay and Dropdown Menu
+
+const clefNoteOptions = {
+  treble: {
+    "0": "G3",
+    "1": "A3",
+    "2": "B3",
+    "3": "C4",
+    "4": "D4",
+    "5": "E4",
+    "6": "F4",
+    "7": "G4",
+    "8": "A4",
+    "9": "B4",
+    "10": "C5",
+    "11": "D5",
+    "12": "E5",
+    "13": "F5",
+    "14": "G5",
+    "15": "A5",
+    "16": "B5",
+    "17": "C6",
+    "18": "D6",
+  },
+  alto: {
+    "3": "C3",
+    "4": "D3",
+    "5": "E3",
+    "6": "F3",
+    "7": "G3",
+    "8": "A3",
+    "9": "B3",
+    "10": "C4",
+    "11": "D4",
+    "12": "E4",
+    "13": "F4",
+    "14": "G4",
+    "15": "A4",
+    "16": "B4",
+    "17": "C5",
+    "18": "D5",
+  },
+  bass: {
+    "1": "C2",
+    "2": "D2",
+    "3": "E2",
+    "4": "F2",
+    "5": "G2",
+    "6": "A2",
+    "7": "B2",
+    "8": "C3",
+    "9": "D3",
+    "10": "E3",
+    "11": "F3",
+    "12": "G3",
+    "13": "A3",
+    "14": "B3",
+    "15": "C4",
+    "16": "D4",
+    "17": "D4",
+    "18": "E4",
+    "19": "F4",
+    "20": "G4",
+    "21": "A5",
+
+  }
+};
+
+
 function changeclef() {
+
+  const clefDropdown = document.getElementById("clefdropdown");
+  const lowestNoteDropdown = document.getElementById("lowestnotedropdown");
+  const selectedClef = clefDropdown.value;
+
+  // Clear existing options
+  lowestNoteDropdown.innerHTML = "";
+
+  // Get the note options for the selected clef
+  const noteOptions = clefNoteOptions[selectedClef];
+
+  // Create and append new options
+  for (const [value, text] of Object.entries(noteOptions)) {
+    const option = document.createElement("option");
+    option.value = value;
+    option.text = text;
+    lowestNoteDropdown.appendChild(option);
+  }
+
+  
     
 					   // Get the selected value from the dropdown
     var imagevalue1 = document.getElementById("clefdropdown").value;
@@ -283,6 +380,9 @@ function changeclef() {
     
 					  // Update the source of the image
     document.getElementById("clefimage").src = imagevalue1 + imagevalue2 + ".png";
+    
+   
+  
   }
 
 
